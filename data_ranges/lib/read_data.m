@@ -1,6 +1,6 @@
 function data_struct = read_data()
     data_struct = struct;
-    data_dir = "../../Data";
+    data_dir = "../../../Data";
     %% drive data
     drive_dir = data_dir + "/drive_data";
     data_struct.drive.adt_15 = load(drive_dir + "/ADTransport_150814/ADTransport_150814_Day_File.mat");
