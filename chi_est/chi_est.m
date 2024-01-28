@@ -1,52 +1,39 @@
 clear; clc;
 addpath("./lib/");
 data_names = load_data_names();
+lsq_mats = {};
 c = [12, 10];
 %%
-dat = dat_filt_lp(get_data(data_names.tc(6), "TC"));
+for i = 1:6
+    i
+    dat = dat_filt_lp(get_data(data_names.tc(i), "TC"));
+    [chi, lsq_dat] = get_chi(dat);
+    lsq_mats{i} = lsq_dat;
+    y1 = dat.x1 + (chi(1) * (dat.x2)) - chi(2); 
+    %%
+    figure(i);
+    hold on;
+    plot(dat.t, dat.x1, DisplayName="x1");
+    plot(dat.t, dat.y1, DisplayName="$y_1$");
+    plot(dat.t, dat.x2, DisplayName="$x_2$");
+    plot(dat.t, y1, DisplayName="$\hat y_1$ (least-squares)");
+    plot(dat.t, dat.T/10, DisplayName="Temp")
+    grid on;
+    hold off;
+    legend('Interpreter','latex');
+    xlabel('time (s)')
+    ylabel('State')
+    title(data_names.tc(i), Interpreter="none")
+    text(500, 60, "chi = " + string(chi(1)) + "    b = " + string(chi(2)))
 
-figure()
-hold on;
-plot(dat.t, dat.x1)
-plot(dat.t, rm_bias(dat.x1, dat.t, 20, 20))
-grit
+    figure(30+i)
+    hold on
+    plot(dat.t, abs(dat.y1 - y1), DisplayName=data_names.tc(i) + " e");
+    %plot(dat.t, dat.T/100, DisplayName="Temp/100")
+    legend(Interpreter="none");
+    grid on
+    xlabel("time (s)");
+    ylabel("|error| $|(y - \hat y)|$", Interpreter="latex");
+    title("Cross-sessitive data prediction error magnitude comparision")
+end
 
-% %%
-% for i = [3,6]
-%     dat = get_data(data_names.tc(i), "TC");
-%     chiT = get_chi(dat);
-%     %%
-%     figure(1);
-%     hold on;
-%     plot(chiT.T_f, chiT.chi, DisplayName=data_names.tc(i))
-%     %%
-%     figure(i);
-%     hold on;
-%     plot(dat.t, dat.x1, DisplayName="x1");
-%     plot(dat.t, dat.y1, DisplayName="y1");
-%     plot(dat.t, dat.x2, DisplayName="x2");
-%     plot(dat.t, dat.T/10, DisplayName="T/10");
-%     plot(dat.t, chiT.chi, DisplayName="$\chi$")
-%     grid on;
-%     hold off;
-%     legend('Interpreter','latex');
-%     xlabel('time (s)')
-%     ylabel('State')
-%     title(data_names.tc(i), Interpreter="none")
-%     %%
-%     figure(3*i)
-%     hold on;
-%     plot(dat.t, chiT.chi, DisplayName="$\chi$");
-%     plot(dat.t, c(i/3) - (chiT.T_f/100).^2, DisplayName= string(c(i/3))+"$ - \left( \frac{T}{10} \right)^2$")
-%     legend('Interpreter','latex');
-%     xlabel('time (s)')
-%     ylabel('$\chi$', 'Interpreter','latex')
-%     title(data_names.tc(i), 'Interpreter','none')
-%     grid on;
-% end
-% figure(1)
-% legend('Interpreter','none')
-% ylabel('$\chi$', 'Interpreter','latex')
-% xlabel("T")
-% grid on
-% hold off

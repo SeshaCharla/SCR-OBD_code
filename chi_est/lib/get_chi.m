@@ -1,14 +1,8 @@
-function chiT = get_chi(dat)
-    chiT = struct;
-    %% Filter design
-    fs = 5;
-    [b, a] = butter(1, 1/(fs/2));
-    %% Filtering the data\
-    x1_f = filtfilt(b, a, dat.x1);
-    y1_f = filtfilt(b, a, dat.y1);
-    x2_f = filtfilt(b, a, dat.x2);
-    chiT.T_f = filtfilt(b, a, dat.T);
-    %% Calculating chi
-    chiT.chi = (y1_f - x1_f)./x2_f;
+function [chi, lsq_dat] = get_chi(dat)
+    %% Using least-squares for estimating the ammonia cross-sensitivity
+    d = dat.y1-dat.x1;
+    C = [dat.x2, -ones(size(dat.x1))];
+    lsq_dat = rm_y10(dat, C, d);
+    chi = lsqnonneg(lsq_dat.C, lsq_dat.d);
 end
 
