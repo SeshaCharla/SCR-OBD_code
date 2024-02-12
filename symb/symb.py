@@ -49,8 +49,8 @@ F = sp.Symbol(r'\bar F', domain='QQ')
 
 ### Acutual system parameters --------------------------------------------------
 # Volume, flow-rate and urea cut off frequency, Storage
-bv = sp.Symbol(r'b_v', domain='QQ')
-V =  1/bv    #sp.Symbol(r'V', domain='QQ')
+V = sp.Symbol(r'V', domain='QQ')
+bv = 1/V             # sp.Symbol(r'b_v', domain='QQ')
 wu = sp.Symbol(r'\omega_u', domain='QQ')
 bu = sp.Symbol(r'b_u', domain='QQ')
 theta = sp.Symbol(r'\Theta', domain='QQ')
