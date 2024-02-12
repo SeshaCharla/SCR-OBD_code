@@ -5,7 +5,10 @@ import matops as m
 det_sIA = sIA.det()
 sIA_TL = sIA[0:3, 0:3]
 det_factor = sIA_TL.det()
-
+det_factor_coeffs = (det_factor.as_poly(s)).coeffs()
+# Getting the detailed coefficient expressions
+# det_factor_coeffs[3].as_poly(x3)
+# (det_factor_coeffs[3].subs(subs_dict)).as_poly(theta, x3)
 
 ### Calculating adjoint
 def calc_adj(A):
