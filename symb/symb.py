@@ -34,6 +34,14 @@ dg32 = sp.Symbol(r'\delta g_{32}', domain='QQ')
 db11 = sp.Symbol(r'\delta b_{11}', domain='QQ')
 db42 = sp.Symbol(r'\delta b_{42}', domain='QQ')
 
+# Volume, flow-rate and urea cut off frequency, Storage
+V = sp.Symbol(r'V', domain='QQ')
+bv = 1/V    # sp.Symbol(r'b_v', domain='QQ')
+wu = sp.Symbol(r'\omega_u', domain='QQ')
+bu = sp.Symbol(r'b_u', domain='QQ')
+theta = sp.Symbol(r'\Theta', domain='QQ')
+
+
 # Nominal states
 x1 = sp.Symbol(r'\bar x_1', domain='QQ')
 x2 = sp.Symbol(r'\bar x_2', domain='QQ')
@@ -48,13 +56,6 @@ F = sp.Symbol(r'\bar F', domain='QQ')
 
 
 ### Acutual system parameters --------------------------------------------------
-# Volume, flow-rate and urea cut off frequency, Storage
-V = sp.Symbol(r'V', domain='QQ')
-bv = 1/V             # sp.Symbol(r'b_v', domain='QQ')
-wu = sp.Symbol(r'\omega_u', domain='QQ')
-bu = sp.Symbol(r'b_u', domain='QQ')
-theta = sp.Symbol(r'\Theta', domain='QQ')
-
 # Nominal rate constants
 k1 = sp.Symbol(r'\bar k_1', domain='QQ')
 k3 = sp.Symbol(r'\bar k_3', domain='QQ')
@@ -118,6 +119,9 @@ B = sp.Matrix([[b11, 0, df13*x1*x3, db11*u1 - dg1*x1],
                [0, b42, 0, db42*u2]], domain='QQ')
 
 
+#C matrix
+C = sp.Matrix([[1, 0, 0, 0],
+              [0, 0, 0, 0]])
 ### (sI - A) matrix ------------------------------------------------------------
 
 s = sp.Symbol(r's', domain='QQ')

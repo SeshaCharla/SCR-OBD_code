@@ -1,5 +1,4 @@
 from symb import *
-import matops as m
 
 ### Calculating the determinant
 det_sIA = sIA.det()
@@ -10,11 +9,17 @@ det_factor_coeffs = (det_factor.as_poly(s)).coeffs()
 # det_factor_coeffs[3].as_poly(x3)
 # (det_factor_coeffs[3].subs(subs_dict)).as_poly(theta, x3)
 
-### Calculating adjoint
-def calc_adj(A):
-    """Returns adjoint of a 4x4 matrix"""
-    adjA = [[(-1)**(i+1) * (-1)**(j+1) * A.minor(i, j) for j in range(4)] for i in range(4)]
-    return sp.Matrix(adjA)
+
+adj_sIA = (sIA.cofactor_matrix()).T
+M = adj_sIA[0:2, :]
+# Getting relavent matrices
+# Mfact = M[1,3].factor()
+# Mfact
+# flist = sp.factor_list(Mfact)
+# f2 = flist[1][1][0]
+# f2.as_poly(s)
 
 
-adj_sIA = calc_adj(sIA)
+### Calculating the G matrix
+Mg = sp.simplify(M/(s + g4))
+G = Mg*B
